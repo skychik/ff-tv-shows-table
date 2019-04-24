@@ -7,14 +7,16 @@ export const REQUEST_SHOWS = "REQUEST_SHOWS";
 export const RECEIVE_SHOWS = "RECEIVE_SHOWS";
 export const REQUEST_POSTER_INFO = "REQUEST_POSTER_INFO";
 export const RECEIVE_POSTER_INFO = "RECEIVE_POSTER_INFO";
+export const RECEIVE_PAGINATION_INFO = "RECEIVE_PAGINATION_INFO";
 
 
 // Getting all shows info
 
-export function fetchShows() {
+export function fetchShows(pageNumber, itemsPerPage) {
   return dispatch => {
     dispatch(requestShows());
 
+    const url = "https://api.trakt.tv/shows/popular?page=" + pageNumber + "&limit=" + itemsPerPage;
     const options = {
       headers: {
         "Content-Type": 'application/json',
@@ -22,8 +24,13 @@ export function fetchShows() {
         "trakt-api-key": TRAKT_CLIENT_KEY
       }
     };
-    return fetch("https://api.trakt.tv/shows/popular", options)
-      .then(response => response.json())
+    return fetch(url, options)
+      .then(response => {
+        const pageCount = response.headers.get("X-Pagination-Page-Count");
+        const itemCount = response.headers.get("X-Pagination-Item-Count");
+        dispatch(receivePaginationInfo(pageCount, itemCount));
+        return response.json()
+      })
       .then(json => {
         dispatch(receiveShows(json));
         json.map(info => dispatch(fetchPosterInfo(info.ids.tvdb)));
@@ -41,6 +48,14 @@ export function receiveShows(shows) {
   return {
     type: RECEIVE_SHOWS,
     shows: shows,
+  }
+}
+
+export function receivePaginationInfo(pageCount, itemCount) {
+  return {
+    type: RECEIVE_PAGINATION_INFO,
+    pageCount: pageCount,
+    itemCount: itemCount,
   }
 }
 

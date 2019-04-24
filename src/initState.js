@@ -1,7 +1,11 @@
 const initState = {
   shows: {
     info: [],
-    infoFetched: false
+    infoFetched: false,
+    pageCount: null,
+    itemCount: null,
+    pageNumber: 1,
+    itemsPerPage: 10
   }
 };
 

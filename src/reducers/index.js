@@ -1,17 +1,15 @@
 import { combineReducers } from 'redux'
-import {RECEIVE_POSTER_INFO, RECEIVE_SHOWS, REQUEST_SHOWS} from "../actions";
+import {RECEIVE_PAGINATION_INFO, RECEIVE_POSTER_INFO, RECEIVE_SHOWS, REQUEST_SHOWS} from "../actions";
 
 export function showsReducer(state = {}, action) {
   switch (action.type) {
     case REQUEST_SHOWS:
-      return {
-        info: [],
-        infoFetched: false
-      };
+      return state;
     case RECEIVE_SHOWS:
       console.log(action.shows);
       let id = 0;
       return {
+        ...state,
         info: action.shows.map(show => ({
           id: id++,
           title: show.title,
@@ -19,6 +17,12 @@ export function showsReducer(state = {}, action) {
           posterId: show.ids.tvdb
         })),
         infoFetched: true
+      };
+    case RECEIVE_PAGINATION_INFO:
+      return {
+        ...state,
+        pageCount: action.pageCount,
+        itemCount: action.itemCount
       };
     case RECEIVE_POSTER_INFO:
       // TODO: normal algo
