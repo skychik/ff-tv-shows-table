@@ -1,0 +1,3 @@
+Trakt key = 1098aa9283a45930885916b98e046d43cd7301e4de4198c5e624aa39b5cd6972
+Fanart personal key = 313966685b1712ca5f9c4c15427da38d
+Fanart project key = 4a2226e35da3b653ed9d980ae3efb5f8
