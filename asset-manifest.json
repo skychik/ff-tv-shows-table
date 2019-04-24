@@ -1,16 +1,15 @@
 {
   "files": {
     "main.css": "/ff-tv-shows-table/static/css/main.584f321a.chunk.css",
-    "main.js": "/ff-tv-shows-table/static/js/main.3ee8cd2a.chunk.js",
-    "main.js.map": "/ff-tv-shows-table/static/js/main.3ee8cd2a.chunk.js.map",
+    "main.js": "/ff-tv-shows-table/static/js/main.e9b82a63.chunk.js",
+    "main.js.map": "/ff-tv-shows-table/static/js/main.e9b82a63.chunk.js.map",
     "runtime~main.js": "/ff-tv-shows-table/static/js/runtime~main.1c5c7aac.js",
     "runtime~main.js.map": "/ff-tv-shows-table/static/js/runtime~main.1c5c7aac.js.map",
-    "static/js/2.b41502e9.chunk.js": "/ff-tv-shows-table/static/js/2.b41502e9.chunk.js",
-    "static/js/2.b41502e9.chunk.js.map": "/ff-tv-shows-table/static/js/2.b41502e9.chunk.js.map",
+    "static/js/2.53e6bc7a.chunk.js": "/ff-tv-shows-table/static/js/2.53e6bc7a.chunk.js",
+    "static/js/2.53e6bc7a.chunk.js.map": "/ff-tv-shows-table/static/js/2.53e6bc7a.chunk.js.map",
     "index.html": "/ff-tv-shows-table/index.html",
-    "precache-manifest.b4eaad4117ff4b9790b9d33167dd87da.js": "/ff-tv-shows-table/precache-manifest.b4eaad4117ff4b9790b9d33167dd87da.js",
+    "precache-manifest.e4a3ed3fa5406eba00db6933241e588a.js": "/ff-tv-shows-table/precache-manifest.e4a3ed3fa5406eba00db6933241e588a.js",
     "service-worker.js": "/ff-tv-shows-table/service-worker.js",
-    "static/css/main.584f321a.chunk.css.map": "/ff-tv-shows-table/static/css/main.584f321a.chunk.css.map",
-    "static/media/logo.svg": "/ff-tv-shows-table/static/media/logo.5d5d9eef.svg"
+    "static/css/main.584f321a.chunk.css.map": "/ff-tv-shows-table/static/css/main.584f321a.chunk.css.map"
   }
 }
