@@ -10,8 +10,16 @@ class Table extends React.Component {
       <tr key={show.id}>
         <td>{show.id}</td>
         <td>{show.title}</td>
-        <td>{show.year}</td>
-        <td>{show.posterUrl ? <img src={show.posterUrl} alt={show.title + " poster"}/> : ""}</td>
+        <td>{show.year ? show.year : "¯\\_(ツ)_/¯"}</td>
+        <td>
+          {!show.posterUrl ? "" :
+            show.posterUrl === "no posters" ? <p>Only logo :(</p> :
+              show.posterUrl === "no info" ? <p>No posters ;(</p> :
+                <a href={show.posterUrl} target="_blank">
+                  <img src={show.posterUrl} className="poster" alt={show.title + " poster"}/>
+                </a>
+          }
+        </td>
       </tr>
     );
 
@@ -20,7 +28,7 @@ class Table extends React.Component {
         <table>
           <thead>
             <tr>
-              <td>ID</td>
+              <td>№</td>
               <td>Title</td>
               <td>Year</td>
               <td>Poster</td>

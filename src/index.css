@@ -12,3 +12,87 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.loading {
+  margin-top: 200px;
+  font-size: 70px;
+}
+
+table {
+  width: 60%;
+  margin: 20px 20% 0 20%;
+  border-collapse: collapse;
+}
+
+thead {
+  font-size: large;
+}
+
+tbody > tr {
+  height: 113px;
+}
+
+td {
+  border: 1px solid grey;
+}
+
+.poster {
+    height: 100px;
+}
+
+ul.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+ul.pagination li {display: inline;}
+
+ul.pagination li a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+    font-size: 22px;
+}
+
+ul.pagination li a.active {
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+}
+
+ul.pagination li a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+.pagination li:first-child a {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+/*Loader*/
+
+.loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

@@ -4,26 +4,55 @@ import Table from "./Table";
 import * as actionCreators from "../actions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import Paginator from "../components/Paginator";
+import LoadingPage from "../components/LoadingPage";
 
 class App extends React.Component {
-  componentWillMount() {
-    const {shows} = this.props;
-    if (shows && shows.infoFetched === false) {
-      this.props.fetchShows(shows.pageNumber, shows.itemsPerPage);
-    }
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.props.changeItemsPerPage(event.target.value);
   }
 
   render() {
     const {shows} = this.props;
+    const infoLoaded = shows.pageCount && shows.itemCount;
+
+    if (shows.infoNeedToBeChanged) {
+      this.props.fetchShows(shows.pageNumber, shows.itemsPerPage);
+      return <div className="App">
+        <LoadingPage/>
+      </div>
+    }
+    if (!shows.showsDownloaded) {
+      return <div className="App">
+        <LoadingPage/>
+      </div>
+    }
+    if (!infoLoaded) {
+      return <div className="App">
+        <Table/>
+      </div>;
+    }
     const extraInfo = <div>
-      <p>TV-shows displayed: {shows.itemsPerPage}. Page {shows.pageNumber} of {shows.pageCount}</p>
+      <p>TV-shows displayed:
+        <select value={shows.itemsPerPage} onChange={this.handleChange}>
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={25}>25</option>
+          <option value={50}>50</option>
+        </select>. Page {shows.pageNumber} of {shows.pageCount}</p>
       <p>Shows in total: {shows.itemCount}</p>
     </div>;
-
     return <div className="App">
+      <Paginator setPage={(p) => this.props.setPage(p)} currPage={shows.pageNumber} totalPages={shows.pageCount}/>
       <Table/>
-      {shows.infoFetched ? extraInfo : null}
+      {extraInfo}
     </div>
+
   }
 }
 

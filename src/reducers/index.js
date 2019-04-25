@@ -1,13 +1,26 @@
 import { combineReducers } from 'redux'
-import {RECEIVE_PAGINATION_INFO, RECEIVE_POSTER_INFO, RECEIVE_SHOWS, REQUEST_SHOWS} from "../actions";
+import {
+  CHANGE_ITEMS_PER_PAGE,
+  FAIL_POSTER_INFO,
+  RECEIVE_PAGINATION_INFO,
+  RECEIVE_POSTER_INFO,
+  RECEIVE_SHOWS,
+  REQUEST_SHOWS,
+  SET_NEXT_PAGE, SET_PAGE,
+  SET_PREVIOUS_PAGE
+} from "../actions";
 
 export function showsReducer(state = {}, action) {
   switch (action.type) {
     case REQUEST_SHOWS:
-      return state;
+      return {
+        ...state,
+        infoNeedToBeChanged: false,
+        showsDownloaded: false
+      };
     case RECEIVE_SHOWS:
       console.log(action.shows);
-      let id = 0;
+      let id = 1;
       return {
         ...state,
         info: action.shows.map(show => ({
@@ -16,7 +29,7 @@ export function showsReducer(state = {}, action) {
           year: show.year,
           posterId: show.ids.tvdb
         })),
-        infoFetched: true
+        showsDownloaded: true
       };
     case RECEIVE_PAGINATION_INFO:
       return {
@@ -31,21 +44,42 @@ export function showsReducer(state = {}, action) {
         info: state.info.map(show =>
             show.posterId === action.posterId ? {...show, posterUrl: getPosterUrlFromInfo(action.info)} : show
           )
+      };
+    case FAIL_POSTER_INFO:
+      return {
+        ...state,
+        info: state.info.map(show =>
+          show.posterId === action.posterId ? {...show, posterUrl: "no info"} : show
+        )
+      };
+    case SET_PAGE:
+      return {
+        ...state,
+        pageNumber: (action.pageNumber < 1) || (action.pageNumber > state.pageCount) ? state.pageNumber :
+          action.pageNumber,
+        infoNeedToBeChanged: true
+      };
+    case CHANGE_ITEMS_PER_PAGE:
+      return {
+        ...state,
+        itemsPerPage: action.items,
+        pageNumber: 1,
+        infoNeedToBeChanged: true
       }
   }
   return state;
 }
 
 function getPosterUrlFromInfo(info) {
-  if (info.clearlogo) {
-    if (info.clearlogo instanceof Array) return info.clearlogo[0].url;
-    return info.clearlogo.url;
+  if (info.tvposter) {
+    if (info.tvposter instanceof Array) return info.tvposter[0].url;
+    return info.tvposter.url;
   }
-  if (info.hdtvlogo) {
-    if (info.hdtvlogo instanceof Array) return info.hdtvlogo[0].url;
-    return info.hdtvlogo.url;
+  if (info.seasonposter) {
+    if (info.seasonposter instanceof Array) return info.seasonposter[0].url;
+    return info.seasonposter.url;
   }
-  return null;
+  return "no posters";
 }
 
 const rootReducer = combineReducers({
