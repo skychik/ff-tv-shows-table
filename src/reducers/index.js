@@ -20,7 +20,7 @@ export function showsReducer(state = {}, action) {
       };
     case RECEIVE_SHOWS:
       console.log(action.shows);
-      let id = 1;
+      let id = 1 + (state.pageNumber - 1) * state.itemsPerPage;
       return {
         ...state,
         info: action.shows.map(show => ({

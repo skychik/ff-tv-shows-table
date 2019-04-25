@@ -42,13 +42,13 @@ export function fetchShows(pageNumber, itemsPerPage) {
   }
 }
 
-export function requestShows() {
+function requestShows() {
   return {
     type: REQUEST_SHOWS
   }
 }
 
-export function receiveShows(shows) {
+function receiveShows(shows) {
   return {
     type: RECEIVE_SHOWS,
     shows: shows,
