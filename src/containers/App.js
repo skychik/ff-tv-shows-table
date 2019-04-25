@@ -20,6 +20,9 @@ class App extends React.Component {
   render() {
     const {shows} = this.props;
     const infoLoaded = shows.pageCount && shows.itemCount;
+    const header = <h1>
+      TV SERIES POSTERS
+    </h1>;
 
     if (shows.infoNeedToBeChanged) {
       this.props.fetchShows(shows.pageNumber, shows.itemsPerPage);
@@ -34,6 +37,7 @@ class App extends React.Component {
     }
     if (!infoLoaded) {
       return <div className="App">
+        {header}
         <Table/>
       </div>;
     }
@@ -48,6 +52,7 @@ class App extends React.Component {
       <p>Shows in total: {shows.itemCount}</p>
     </div>;
     return <div className="App">
+      {header}
       <Paginator setPage={(p) => this.props.setPage(p)} currPage={shows.pageNumber} totalPages={shows.pageCount}/>
       <Table/>
       {extraInfo}

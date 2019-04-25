@@ -11,6 +11,7 @@ export const FAIL_POSTER_INFO = "FAIL_POSTER_INFO";
 export const RECEIVE_PAGINATION_INFO = "RECEIVE_PAGINATION_INFO";
 export const SET_PAGE = "SET_PAGE";
 export const CHANGE_ITEMS_PER_PAGE = "CHANGE_ITEMS_PER_PAGE";
+export const SHOW_IMG = "SHOW_IMG";
 
 
 // Getting all shows info
@@ -102,6 +103,13 @@ export function failPosterInfo(posterId) {
   return {
     type: FAIL_POSTER_INFO,
     posterId: posterId
+  }
+}
+
+export function revealImg(showId) {
+  return {
+    type: SHOW_IMG,
+    showId: showId
   }
 }
 

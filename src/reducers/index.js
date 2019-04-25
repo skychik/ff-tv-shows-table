@@ -7,7 +7,7 @@ import {
   RECEIVE_SHOWS,
   REQUEST_SHOWS,
   SET_NEXT_PAGE, SET_PAGE,
-  SET_PREVIOUS_PAGE
+  SET_PREVIOUS_PAGE, SHOW_IMG
 } from "../actions";
 
 export function showsReducer(state = {}, action) {
@@ -27,7 +27,8 @@ export function showsReducer(state = {}, action) {
           id: id++,
           title: show.title,
           year: show.year,
-          posterId: show.ids.tvdb
+          posterId: show.ids.tvdb,
+          imgLoaded: false,
         })),
         showsDownloaded: true
       };
@@ -50,6 +51,13 @@ export function showsReducer(state = {}, action) {
         ...state,
         info: state.info.map(show =>
           show.posterId === action.posterId ? {...show, posterUrl: "no info"} : show
+        )
+      };
+    case SHOW_IMG:
+      return {
+        ...state,
+        info: state.info.map(show =>
+          show.id === action.showId ? {...show, imgLoaded: true} : show
         )
       };
     case SET_PAGE:

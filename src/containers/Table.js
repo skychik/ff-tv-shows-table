@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as actionCreators from "../actions"
+import LoadingSpinner from "../components/LoadingSpinner";
 
 class Table extends React.Component {
   render() {
@@ -12,11 +13,13 @@ class Table extends React.Component {
         <td>{show.title}</td>
         <td>{show.year ? show.year : "¯\\_(ツ)_/¯"}</td>
         <td>
-          {!show.posterUrl ? "" :
+          {!show.posterUrl ? <LoadingSpinner/> :
             show.posterUrl === "no posters" ? <p>Only logo :(</p> :
               show.posterUrl === "no info" ? <p>No posters ;(</p> :
-                <a href={show.posterUrl} target="_blank">
-                  <img src={show.posterUrl} className="poster" alt={show.title + " poster"}/>
+                <a href={show.posterUrl} rel="noopener noreferrer" target="_blank">
+                  {!show.imgLoaded ? <LoadingSpinner/> : ""}
+                  <img src={show.posterUrl} className="poster" alt={show.title + " poster"}
+                       onLoad={() => this.props.revealImg(show.id)} hidden={!show.imgLoaded}/>
                 </a>
           }
         </td>
