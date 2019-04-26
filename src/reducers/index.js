@@ -124,6 +124,8 @@ function searchReducer(state = {}, action) {
     case REQUEST_SEARCH_SHOWS:
       return {
         ...state,
+        previousValue: state.value,
+        value: "",
         pending: true,
         failed: false
       };
@@ -144,12 +146,12 @@ function searchReducer(state = {}, action) {
 
 function infoReducer(state = {}, action) {
   switch (action.type) {
-    case RECEIVE_SEARCH_SHOWS:
+    case REQUEST_SEARCH_SHOWS:
       return {
         ...state,
         mode: "search",
       };
-    case RECEIVE_SHOWS:
+    case REQUEST_SHOWS:
       return {
         ...state,
         mode: "popular",

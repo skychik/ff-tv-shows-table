@@ -2,12 +2,14 @@ import React from "react";
 import * as actionCreators from "../actions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import {setPage} from "../actions";
 
 class SearchForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleKeyPressed = this.handleKeyPressed.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   handleInputChange() {
@@ -15,8 +17,15 @@ class SearchForm extends React.Component {
   }
 
   handleKeyPressed(event) {
-    const {shows, search} = this.props;
     if (event.key === "Enter") {
+      this.handleSearch()
+    }
+  }
+
+  handleSearch() {
+    const {shows, search} = this.props;
+    if (search.value !== "") {
+      this.props.setPage(1);
       this.props.searchShows(search.value, shows.pageNumber, shows.itemsPerPage);
     }
   }
@@ -29,7 +38,7 @@ class SearchForm extends React.Component {
       <p>
         <input type="search" placeholder="Search..."
                ref={input => this.search = input} onChange={this.handleInputChange} onKeyPress={this.handleKeyPressed}/>
-        <button onClick={() => this.props.searchShows(search.value, shows.pageNumber, shows.itemsPerPage)}>Find</button>
+        <button onClick={this.handleSearch}>Find</button>
       </p>
     </div>;
   }

@@ -21,7 +21,8 @@ const Paginator = (props) => {
   const numberedButtonMaker = (buttNumb, pageNumb) => {
     return (pageNumb < buttNumb) || (pageNumb > totalPages) ? "" :
       <li>
-        <button className={currPage === pageNumb ? "active" : ""} onClick={() => props.setPage(pageNumb)}>
+        <button className={currPage === pageNumb ? "active" : ""}
+                onClick={currPage !== pageNumb ? () => props.setPage(pageNumb) : null}>
           {pageNumb}
         </button>
       </li>

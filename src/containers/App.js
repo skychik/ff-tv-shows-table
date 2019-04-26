@@ -35,7 +35,8 @@ class App extends React.Component {
     </div>;
     const searchInfo = info.mode !== "search" ? "" :
         <h2>
-          Searched results for: "{search.value}"
+          Searched results for: "{search.previousValue}".
+          <button onClick={() => this.props.fetchShows(shows.pageNumber, shows.itemsPerPage)}>Show all TV-shows</button>
         </h2>;
 
     if (shows.infoNeedToBeChanged) {
