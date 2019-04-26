@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.0/workbox-sw.js");
 
 importScripts(
-  "/ff-tv-shows-table/precache-manifest.e8cc9ef120abb7a430ab8ba108e55d0c.js"
+  "/ff-tv-shows-table/precache-manifest.0b32cd36447705dbaacd5b0744392959.js"
 );
 
 self.addEventListener('message', (event) => {
