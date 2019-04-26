@@ -12,6 +12,18 @@ export const RECEIVE_PAGINATION_INFO = "RECEIVE_PAGINATION_INFO";
 export const SET_PAGE = "SET_PAGE";
 export const CHANGE_ITEMS_PER_PAGE = "CHANGE_ITEMS_PER_PAGE";
 export const SHOW_IMG = "SHOW_IMG";
+export const SET_SEARCH_VALUE = "SET_SEARCH_VALUE";
+export const REQUEST_SEARCH_SHOWS = "REQUEST_SEARCH_SHOWS";
+export const RECEIVE_SEARCH_SHOWS = "RECEIVE_SEARCH_SHOWS";
+export const FAIL_SEARCH_SHOWS = "FAIL_SEARCH_SHOWS";
+
+const traktOptions = {
+  headers: {
+    "Content-Type": 'application/json',
+    "trakt-api-version": '2',
+    "trakt-api-key": TRAKT_CLIENT_KEY
+  }
+};
 
 
 // Getting all shows info
@@ -20,20 +32,15 @@ export function fetchShows(pageNumber, itemsPerPage) {
   return dispatch => {
     dispatch(requestShows());
 
-    const url = "https://api.trakt.tv/shows/popular?page=" + pageNumber + "&limit=" + itemsPerPage;
-    const options = {
-      headers: {
-        "Content-Type": 'application/json',
-        "trakt-api-version": '2',
-        "trakt-api-key": TRAKT_CLIENT_KEY
-      }
-    };
-    return fetch(url, options)
+    const url = "https://api.trakt.tv/shows/popular?extended=full&page=" + pageNumber + "&limit=" + itemsPerPage;
+    return fetch(url, traktOptions)
       .then(response => {
-        const pageCount = parseInt(response.headers.get("X-Pagination-Page-Count"));
-        const itemCount = parseInt(response.headers.get("X-Pagination-Item-Count"));
-        dispatch(receivePaginationInfo(pageCount, itemCount));
-        return response.json()
+        if (!response.ok) {
+          dispatch(failSearchShows())
+        } else {
+          dispatch(receivePaginationInfo(response));
+          return response.json()
+        }
       })
       .then(json => {
         dispatch(receiveShows(json));
@@ -55,11 +62,61 @@ function receiveShows(shows) {
   }
 }
 
-export function receivePaginationInfo(pageCount, itemCount) {
+export function receivePaginationInfo(response) {
   return {
     type: RECEIVE_PAGINATION_INFO,
-    pageCount: pageCount,
-    itemCount: itemCount,
+    pageCount: parseInt(response.headers.get("X-Pagination-Page-Count")),
+    itemCount: parseInt(response.headers.get("X-Pagination-Item-Count")),
+  }
+}
+
+// Search
+
+export function setSearchValue(value) {
+  return {
+    type: SET_SEARCH_VALUE,
+    value: value
+  }
+}
+
+export function searchShows(value, pageNumber, itemsPerPage) {
+  return dispatch => {
+    dispatch(requestSearchShows());
+    console.log("value="+ value);
+    const url = "https://api.trakt.tv/search/show?extended=full&query=" + value +
+      "&page=" + pageNumber + "&limit=" + itemsPerPage;
+    return fetch(url, traktOptions)
+      .then(response => {
+        if (!response.ok) {
+          dispatch(failSearchShows())
+        } else {
+          dispatch(receivePaginationInfo(response));
+          return response.json()
+        }
+      })
+      .then(json => {
+        dispatch(receiveSearchShows(json));
+        json.map(info => dispatch(fetchPosterInfo(info.show.ids.tvdb)));
+      });
+  }
+}
+
+function requestSearchShows() {
+  return {
+    type: REQUEST_SEARCH_SHOWS
+  }
+}
+
+function receiveSearchShows(shows) {
+  return {
+    type: RECEIVE_SEARCH_SHOWS,
+    shows: shows,
+  }
+}
+
+function failSearchShows() {
+  return {
+    type: FAIL_SEARCH_SHOWS
   }
 }
 
@@ -129,3 +186,5 @@ export function changeItemsPerPage(value) {
     items: value
   }
 }
+
+

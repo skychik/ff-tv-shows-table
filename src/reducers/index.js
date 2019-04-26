@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux'
+import * as _ from "lodash";
 import {
   CHANGE_ITEMS_PER_PAGE,
-  FAIL_POSTER_INFO,
+  FAIL_POSTER_INFO, FAIL_SEARCH_SHOWS,
   RECEIVE_PAGINATION_INFO,
-  RECEIVE_POSTER_INFO,
-  RECEIVE_SHOWS,
+  RECEIVE_POSTER_INFO, RECEIVE_SEARCH_SHOWS,
+  RECEIVE_SHOWS, REQUEST_SEARCH_SHOWS,
   REQUEST_SHOWS,
-  SET_NEXT_PAGE, SET_PAGE,
-  SET_PREVIOUS_PAGE, SHOW_IMG
+  SET_PAGE, SET_SEARCH_VALUE,
+  SHOW_IMG
 } from "../actions";
 
 export function showsReducer(state = {}, action) {
+  let id;
   switch (action.type) {
     case REQUEST_SHOWS:
       return {
@@ -18,16 +20,38 @@ export function showsReducer(state = {}, action) {
         infoNeedToBeChanged: false,
         showsDownloaded: false
       };
-    case RECEIVE_SHOWS:
-      console.log(action.shows);
-      let id = 1 + (state.pageNumber - 1) * state.itemsPerPage;
+    case REQUEST_SEARCH_SHOWS:
       return {
         ...state,
-        info: action.shows.map(show => ({
+        infoNeedToBeChanged: false,
+        showsDownloaded: false
+      };
+    case RECEIVE_SHOWS:
+      id = 1 + (state.pageNumber - 1) * state.itemsPerPage;
+      return {
+        ...state,
+        info: action.shows && action.shows.map(show => ({
           id: id++,
           title: show.title,
           year: show.year,
+          rating: show.rating,
           posterId: show.ids.tvdb,
+          slug: show.ids.slug,
+          imgLoaded: false,
+        })),
+        showsDownloaded: true
+      };
+    case RECEIVE_SEARCH_SHOWS:
+      id = 1 + (state.pageNumber - 1) * state.itemsPerPage;
+      return {
+        ...state,
+        info: action.shows && action.shows.map(item => ({
+          id: id++,
+          title: item.show.title,
+          year: item.show.year,
+          rating: item.show.rating,
+          posterId: item.show.ids.tvdb,
+          slug: item.show.ids.slug,
           imgLoaded: false,
         })),
         showsDownloaded: true
@@ -42,21 +66,21 @@ export function showsReducer(state = {}, action) {
       // TODO: normal algo
       return {
         ...state,
-        info: state.info.map(show =>
+        info: state.info && state.info.map(show =>
             show.posterId === action.posterId ? {...show, posterUrl: getPosterUrlFromInfo(action.info)} : show
           )
       };
     case FAIL_POSTER_INFO:
       return {
         ...state,
-        info: state.info.map(show =>
+        info: state.info && state.info.map(show =>
           show.posterId === action.posterId ? {...show, posterUrl: "no info"} : show
         )
       };
     case SHOW_IMG:
       return {
         ...state,
-        info: state.info.map(show =>
+        info: state.info && state.info.map(show =>
           show.id === action.showId ? {...show, imgLoaded: true} : show
         )
       };
@@ -90,8 +114,55 @@ function getPosterUrlFromInfo(info) {
   return "no posters";
 }
 
+function searchReducer(state = {}, action) {
+  switch (action.type) {
+    case SET_SEARCH_VALUE:
+      return {
+        ...state,
+        value: _.escapeRegExp(action.value.trim())
+      };
+    case REQUEST_SEARCH_SHOWS:
+      return {
+        ...state,
+        pending: true,
+        failed: false
+      };
+    case RECEIVE_SEARCH_SHOWS:
+      return {
+        ...state,
+        pending: false
+      };
+    case FAIL_SEARCH_SHOWS:
+      return {
+        ...state,
+        pending: false,
+        failed: true
+      };
+  }
+  return state;
+}
+
+function infoReducer(state = {}, action) {
+  switch (action.type) {
+    case RECEIVE_SEARCH_SHOWS:
+      return {
+        ...state,
+        mode: "search",
+      };
+    case RECEIVE_SHOWS:
+      return {
+        ...state,
+        mode: "popular",
+      };
+  }
+  return state;
+}
+
+
 const rootReducer = combineReducers({
-  shows: showsReducer
+  shows: showsReducer,
+  search: searchReducer,
+  info: infoReducer,
 });
 
 export default rootReducer;

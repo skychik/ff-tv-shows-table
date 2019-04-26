@@ -8,22 +8,22 @@ const Paginator = (props) => {
   const paginatorClassName = "pagination";
   const prevButton = currPage <= 3 ? "" :
     <li>
-      <a className="prev" onClick={() => props.setPage(1)} >
+      <button className="prev" onClick={() => props.setPage(1)} >
         «
-      </a>
+      </button>
     </li>;
   const nextButton = currPage >= totalPages - 2 ? "" :
     <li>
-      <a className="next" onClick={() => props.setPage(totalPages)}>
+      <button className="next" onClick={() => props.setPage(totalPages)}>
         »
-      </a>
+      </button>
     </li>;
   const numberedButtonMaker = (buttNumb, pageNumb) => {
     return (pageNumb < buttNumb) || (pageNumb > totalPages) ? "" :
       <li>
-        <a className={currPage === pageNumb ? "active" : ""} onClick={() => props.setPage(pageNumb)}>
+        <button className={currPage === pageNumb ? "active" : ""} onClick={() => props.setPage(pageNumb)}>
           {pageNumb}
-        </a>
+        </button>
       </li>
   };
 
