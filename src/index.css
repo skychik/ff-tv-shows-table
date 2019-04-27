@@ -28,6 +28,13 @@ thead {
   font-size: large;
 }
 
+th.ascend::after {
+    content: "\25BC";
+}
+th.descend::after {
+    content: "\25B2";
+}
+
 tbody > tr {
   height: 113px;
 }
