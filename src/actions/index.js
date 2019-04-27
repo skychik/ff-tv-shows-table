@@ -16,6 +16,7 @@ export const SET_SEARCH_VALUE = "SET_SEARCH_VALUE";
 export const REQUEST_SEARCH_SHOWS = "REQUEST_SEARCH_SHOWS";
 export const RECEIVE_SEARCH_SHOWS = "RECEIVE_SEARCH_SHOWS";
 export const FAIL_SEARCH_SHOWS = "FAIL_SEARCH_SHOWS";
+export const SET_SEARCH_MODE = "SET_SEARCH_MODE";
 
 const traktOptions = {
   headers: {
@@ -79,11 +80,25 @@ export function setSearchValue(value) {
   }
 }
 
-export function searchShows(value, pageNumber, itemsPerPage) {
+export function searchShows(value, searchMode, pageNumber, itemsPerPage) {
   return dispatch => {
     dispatch(requestSearchShows());
     console.log("value="+ value);
-    const url = "https://api.trakt.tv/search/show?extended=full&query=" + value +
+    let searchByField;
+    switch (searchMode) {
+      case "title":
+        searchByField = "title";
+        break;
+      case "overview":
+        searchByField = "overview";
+        break;
+      case "anyLangTitle":
+        searchByField = "aliases";
+        break;
+      default:
+        searchByField = "";
+    }
+    const url = "https://api.trakt.tv/search/show?extended=full&field=" + searchByField + "&query=" + value +
       "&page=" + pageNumber + "&limit=" + itemsPerPage;
     return fetch(url, traktOptions)
       .then(response => {
@@ -184,6 +199,16 @@ export function changeItemsPerPage(value) {
   return {
     type: CHANGE_ITEMS_PER_PAGE,
     items: value
+  }
+}
+
+
+// Mode
+
+export function setSearchMode(mode) {
+  return {
+    type: SET_SEARCH_MODE,
+    mode: mode,
   }
 }
 

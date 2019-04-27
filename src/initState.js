@@ -14,7 +14,8 @@ const initState = {
     failed: false
   },
   info: {
-    mode: "popular"
+    mode: "popular",
+    searchMode: "title"
   }
 };
 

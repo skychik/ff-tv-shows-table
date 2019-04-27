@@ -23,6 +23,7 @@ class Table extends React.Component {
             {show.title}
           </a>
         </td>
+        <td>{show.overview ? show.overview : "¯\\_(ツ)_/¯"}</td>
         <td>{show.year ? show.year : "¯\\_(ツ)_/¯"}</td>
         <td>{show.rating ? show.rating : "¯\\_(ツ)_/¯"}</td>
         <td>
@@ -46,6 +47,7 @@ class Table extends React.Component {
             <tr>
               <td>№</td>
               <td>Title</td>
+              <td>Overview</td>
               <td>Year</td>
               <td>Rating</td>
               <td>Poster</td>

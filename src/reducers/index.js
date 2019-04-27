@@ -6,7 +6,7 @@ import {
   RECEIVE_PAGINATION_INFO,
   RECEIVE_POSTER_INFO, RECEIVE_SEARCH_SHOWS,
   RECEIVE_SHOWS, REQUEST_SEARCH_SHOWS,
-  REQUEST_SHOWS,
+  REQUEST_SHOWS, SET_SEARCH_MODE,
   SET_PAGE, SET_SEARCH_VALUE,
   SHOW_IMG
 } from "../actions";
@@ -33,6 +33,7 @@ export function showsReducer(state = {}, action) {
         info: action.shows && action.shows.map(show => ({
           id: id++,
           title: show.title,
+          overview: show.overview,
           year: show.year,
           rating: show.rating,
           posterId: show.ids.tvdb,
@@ -48,6 +49,7 @@ export function showsReducer(state = {}, action) {
         info: action.shows && action.shows.map(item => ({
           id: id++,
           title: item.show.title,
+          overview: item.show.overview,
           year: item.show.year,
           rating: item.show.rating,
           posterId: item.show.ids.tvdb,
@@ -149,6 +151,7 @@ function infoReducer(state = {}, action) {
     case REQUEST_SEARCH_SHOWS:
       return {
         ...state,
+        fetchedSearchMode: state.searchMode,
         mode: "search",
       };
     case REQUEST_SHOWS:
@@ -156,6 +159,11 @@ function infoReducer(state = {}, action) {
         ...state,
         mode: "popular",
       };
+    case SET_SEARCH_MODE:
+      return {
+        ...state,
+        searchMode: action.mode,
+      }
   }
   return state;
 }
