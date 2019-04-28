@@ -23,7 +23,7 @@ class App extends React.Component {
   render() {
     const {shows, info, search} = this.props;
     const infoLoaded = shows.pageCount && shows.itemCount;
-    const ExtraInfo = <div>
+    const ExtraInfo = <div className="ExtraInfo">
       <p>
         TV-shows displayed:
         <select value={shows.itemsPerPage} onChange={this.handleChange}>
@@ -31,8 +31,9 @@ class App extends React.Component {
           <option value={10}>10</option>
           <option value={25}>25</option>
           <option value={50}>50</option>
-        </select>. Page {shows.pageNumber} of {shows.pageCount}</p>
-      <p>Shows in total: {shows.itemCount}</p>
+        </select>
+      </p>
+      <p>Page {shows.pageNumber} of {shows.pageCount}. Shows in total: {shows.itemCount}</p>
     </div>;
     const SearchInfo = info.mode !== "search" ? "" :
       <h2>
@@ -62,19 +63,19 @@ class App extends React.Component {
 
     if (!infoLoaded) {
       return <div className="App">
-        <SearchForm/>
         <Header text="tv show posters"/>
+        <SearchForm/>
         {SearchInfo}
         <Table/>
       </div>;
     }
 
     return <div className="App">
-      <SearchForm/>
       <Header text="tv show posters"/>
-      <Paginator setPage={(p) => this.props.setPage(p)} currPage={shows.pageNumber} totalPages={shows.pageCount}/>
+      <SearchForm/>
       {SearchInfo}
       <Table/>
+      <Paginator setPage={(p) => this.props.setPage(p)} currPage={shows.pageNumber} totalPages={shows.pageCount}/>
       {ExtraInfo}
     </div>
   }

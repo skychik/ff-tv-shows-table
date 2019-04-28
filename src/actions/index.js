@@ -17,6 +17,7 @@ export const REQUEST_SEARCH_SHOWS = "REQUEST_SEARCH_SHOWS";
 export const RECEIVE_SEARCH_SHOWS = "RECEIVE_SEARCH_SHOWS";
 export const FAIL_SEARCH_SHOWS = "FAIL_SEARCH_SHOWS";
 export const SET_SEARCH_MODE = "SET_SEARCH_MODE";
+export const SHOW_FULL_OVERVIEW = "SHOW_FULL_OVERVIEW";
 
 const traktOptions = {
   headers: {
@@ -213,3 +214,11 @@ export function setSearchMode(mode) {
 }
 
 
+
+
+export function showFullOverview(id) {
+  return {
+    type: SHOW_FULL_OVERVIEW,
+    id: id,
+  }
+}

@@ -8,8 +8,10 @@ import {
   RECEIVE_SHOWS, REQUEST_SEARCH_SHOWS,
   REQUEST_SHOWS, SET_SEARCH_MODE,
   SET_PAGE, SET_SEARCH_VALUE,
-  SHOW_IMG
+  SHOW_IMG, SHOW_FULL_OVERVIEW
 } from "../actions";
+
+export const OVERVIEW_LIMIT = 200;
 
 export function showsReducer(state = {}, action) {
   let id;
@@ -34,6 +36,7 @@ export function showsReducer(state = {}, action) {
           id: id++,
           title: show.title,
           overview: show.overview,
+          fullOverviewShowed: !show.overview || show.overview.length <= OVERVIEW_LIMIT,
           year: show.year,
           rating: show.rating,
           votes: show.votes,
@@ -51,6 +54,7 @@ export function showsReducer(state = {}, action) {
           id: id++,
           title: item.show.title,
           overview: item.show.overview,
+          fullOverviewShowed: !item.show.overview || item.show.overview.length <= OVERVIEW_LIMIT,
           year: item.show.year,
           rating: item.show.rating,
           votes: item.show.votes,
@@ -101,6 +105,11 @@ export function showsReducer(state = {}, action) {
         itemsPerPage: action.items,
         pageNumber: 1,
         infoNeedToBeChanged: true
+      };
+    case SHOW_FULL_OVERVIEW:
+      return {
+        ...state,
+        info: state.info.map(show => show.id === action.id ? {...show, fullOverviewShowed: true} : show)
       }
   }
   return state;

@@ -39,19 +39,15 @@ class SearchForm extends React.Component {
   // TODO: validation
   render() {
     const {shows, search, info} = this.props;
-    return <div>
-      <p>
-        <input type="search" placeholder="Search..."
-               ref={input => this.search = input} onChange={this.handleInputChange} onKeyPress={this.handleKeyPressed}/>
-        <span>
-          <select value={info.searchMode} onChange={this.handleModeChange}>
-            <option value="title">by title</option>
-            <option value="anyLangTitle">by title (any language)</option>
-            <option value="overview">by overview</option>
-          </select>
-        </span>
-        <button onClick={this.handleSearch}>Find</button>
-      </p>
+    return <div className="SearchForm">
+      <input type="search" placeholder="Search..."
+             ref={input => this.search = input} onChange={this.handleInputChange} onKeyPress={this.handleKeyPressed}/>
+      <select value={info.searchMode} onChange={this.handleModeChange}>
+        <option value="title">by title</option>
+        <option value="anyLangTitle">by title (any language)</option>
+        <option value="overview">by overview</option>
+      </select>
+      <button onClick={this.handleSearch}>Find!</button>
     </div>;
   }
 }

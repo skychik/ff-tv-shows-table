@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as actionCreators from "../actions"
 import LoadingSpinner from "../components/LoadingSpinner";
+import * as _ from "lodash";
+import {OVERVIEW_LIMIT} from "../reducers";
 
 class Table extends React.Component {
   constructor(props) {
@@ -16,7 +18,6 @@ class Table extends React.Component {
 
   render() {
     const {shows} = this.props;
-
     console.log("!shows.info || shows.info === []");
     console.log(!shows.info || shows.info.isEmpty);
 
@@ -25,7 +26,19 @@ class Table extends React.Component {
     // }
 
     const showsElems = shows.info && shows.info.map(show => {
-        const overview = show.overview ? show.overview : "¯\\_(ツ)_/¯";
+        const overview = <div>
+          <div className="overview">
+            {!show.overview ? <div style={{textAlign: "center"}}>¯\_(ツ)_/¯</div> :
+                show.fullOverviewShowed ? show.overview : show.overview.substr(0, OVERVIEW_LIMIT) + "..."}
+          </div>
+          <div>
+            {show.fullOverviewShowed ? "" :
+              <button className="showFullOverview-btn" onClick={() => this.props.showFullOverview(show.id)}>
+                Full overview
+              </button>
+            }
+          </div>
+        </div>;
         const year = show.year ? show.year : "¯\\_(ツ)_/¯";
         // const rating = !show.rating || !show.votes ? "¯\\_(ツ)_/¯" : <span>
         //   <p>{show.rating}</p>*<p>{show.votes}</p>={show.rating * show.votes}
@@ -41,7 +54,7 @@ class Table extends React.Component {
           </td>
           <td>{overview}</td>
           <td>{year}</td>
-          <td>{rating}</td>
+          <td>{Number((rating).toFixed(2))}</td>
           <td>
             {!show.posterUrl ? <LoadingSpinner/> :
               show.posterUrl === "no posters" ? <p>Only logo :(</p> :
@@ -62,13 +75,13 @@ class Table extends React.Component {
         <table>
           <thead>
             <tr>
-              <th className={"No"} onClick={() => this.props.setSorting("No")}>№</th>
-              <th>Title</th>
-              <th>Overview</th>
-              <th>Year</th>
-              <th>Rating</th>
+              <th className="No-header" onClick={() => this.props.setSorting("No")}>№</th>
+              <th className="title-header">Title</th>
+              <th className="overview-header">Overview</th>
+              <th className="year-header">Year</th>
+              <th className="rating-header">Rating</th>
               {/*<th className={"ascend"}>Rating * Votes number</th>*/}
-              <th>Poster</th>
+              <th className="poster-header">Poster</th>
             </tr>
           </thead>
           <tbody>{showsElems}</tbody>
