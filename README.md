@@ -1,8 +1,8 @@
 # List popular shows, search them and sort
 https://skychik.github.io/ff-tv-shows-table
-# Development
+## Development
 npm start
-# Production
+## Production
 npm run deploy
 ## Stuff to add
 - immer (it is cool)
