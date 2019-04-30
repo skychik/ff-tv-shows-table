@@ -7,3 +7,4 @@ npm run deploy
 ## Stuff to add
 - immer (it is cool)
 - reselect (for perfomance)
+- redux-saga (for dividing business logic from action; easier to test)
