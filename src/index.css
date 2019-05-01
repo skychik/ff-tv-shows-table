@@ -13,6 +13,10 @@ code {
   monospace;
 }
 
+h1 {
+  margin-top: 40px;
+}
+
 .loading {
   margin-top: 200px;
   font-size: 70px;
@@ -34,6 +38,10 @@ thead {
   font-size: large;
 }
 
+th {
+  padding: 10px;
+}
+
 th.ascend::after {
   content: "\25BC";
 }
@@ -52,6 +60,7 @@ tbody > tr {
 
 td {
   border: 1px solid grey;
+  padding: 10px;
 }
 
 button.showFullOverview-btn {
@@ -61,7 +70,7 @@ button.showFullOverview-btn {
 }
 
 .overview {
-  padding: 10px;
+  padding-bottom: 10px;
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -130,6 +139,7 @@ ul.pagination li button:hover:not(.active) {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
+
 
 /*Loader*/
 
