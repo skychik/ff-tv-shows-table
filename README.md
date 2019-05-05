@@ -8,4 +8,4 @@ npm run deploy
 - immer (it is cool)
 - reselect (for perfomance)
 - redux-saga (for dividing business logic from action; easier to test)
-- flow (for type checking)
+- flow (for type checking; Nuclide IDE in addition)
